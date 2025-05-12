@@ -1,0 +1,227 @@
+create a training folder in c:\users\<yourprofileid>
+create a "java" folder in your training folder
+
+copy the location of java folder
+
+in eclipse/sts, File -> Switch Workspace -> Others
+
+paste the location
+
+Henceforth, all projects we create, will be created in this workspace
+
+Day 1 to 3 	ie., till Tuesday
+
+Refresher - Core Java 
+Key Topics: Java Basics, Object Oriented Programming Concepts, Packages, Interfaces, Abstract Classes, Inner Classes, Exception Handling, Strings, I/O, Collections and Generics, Date/Time API, Standard Libraries, Multithreading, JDBC, Lambda Expressions
+Refresher – ANSI SQL using MySQL, HTML5, CSS3, Javascript
+
+
+Java Basics
+-----------
+Platform independent
+	java compilation
+			2 stages
+				compilation:		javac
+				1) source code -> byte code	
+				execution:		java
+				2) byte code -> machine code (where it runs)	JIT
+
+
+
+how to setup java env:
+install jdk/jre
+
+jdk vs jre
+	jdk is java development kit
+		it contains compiler also
+
+	jre	
+		does not have compiler
+		
+
+running a hello world in cmd prompt:
+
+
+C:\Users\2372354\Training\INTISG25CMT001\Java>dir
+ Volume in drive C is Windows
+ Volume Serial Number is 2C1C-24D4
+
+ Directory of C:\Users\2372354\Training\INTISG25CMT001\Java
+
+21-02-2025  09:56    <DIR>          .
+21-02-2025  09:21    <DIR>          ..
+21-02-2025  09:25    <DIR>          .metadata
+21-02-2025  09:56               108 App.java
+               1 File(s)            108 bytes
+               3 Dir(s)  390,250,819,584 bytes free
+
+C:\Users\2372354\Training\INTISG25CMT001\Java>javac App.java
+
+C:\Users\2372354\Training\INTISG25CMT001\Java>dir
+ Volume in drive C is Windows
+ Volume Serial Number is 2C1C-24D4
+
+ Directory of C:\Users\2372354\Training\INTISG25CMT001\Java
+
+21-02-2025  09:57    <DIR>          .
+21-02-2025  09:21    <DIR>          ..
+21-02-2025  09:25    <DIR>          .metadata
+21-02-2025  09:57               454 App.class
+21-02-2025  09:56               108 App.java
+               2 File(s)            562 bytes
+               3 Dir(s)  390,250,725,376 bytes free
+
+C:\Users\2372354\Training\INTISG25CMT001\Java>java App
+Hello world
+C:\Users\2372354\Training\INTISG25CMT001\Java>
+
+
+--------------------------------
+In eclipse,
+for core java programs:
+
+File -> New -> Java Project
+
+Data types in java
+------------
+boolean
+byte
+char
+short
+int
+float
+long
+double
+
+
+
+String is a class. It is a reference type. It is a TYPE not data type
+
+all primitive types are value types.
+
+diff between value type and ref type.
+
+a=b		what happens?
+	if a and b are value types (primitives) then
+		value of b is copied to a
+
+	if a and be are ref types (objects) then
+		ref of b is copied to a
+
+Wrapper classes:
+-----------------
+for each primitive there is a wrapper
+boolean	Boolean
+byte		Byte
+char		Character
+short		Short
+int			Integer
+float		Float
+long		Long
+double		Double
+
+
+these wrappers, have a behavior to automatically wrap or unwrap
+box or unbox to and fro primitive to wrapper types
+
+
+Integer i=20;		//20 is int data type. but it is boxed to Integer type automatically, 		auto boxing (from 1.5 version)
+
+int x=i;		//i is Integer. Here it is auto unboxing
+
+public void swap(Integer x, Integer y)
+{
+		int temp=x;
+		temp=y;
+		y=x;
+		//x and y are swapped
+}
+
+swap(a,b);			a and b are not swapped
+
+
+Integer x;
+
+x.intValue;		
+
+int y=x;
+
+what is boxing?
+what is unboxing?
+
+what is casting?
+	a=b is not a problem when a and b are same data types
+
+int a=20;
+float f=0.0;
+
+f=a;		//what is the problem?
+
+Language features
+
+	if
+	if else
+	if else if else
+	switch case
+	while loop
+	do while loop
+	for loop
+	for each	=	enhanced for loop		arrays / collection
+
+
+
+
+int x=20;	
+	x is the label of a memory location
+	x is a memory location, where 20 is present
+
+String str="hello";
+	str is the locker 
+	if you open the locaker, you 
+
+stack
+heap
+
+whenever you declare a variable inside a method (function)
+then the variable is created in "Stack"
+
+
+
+
+Class
+-----
+is a blueprint for creating objects
+is a data definition
+is a user defined type
+is a composite type
+is a reference type
+
+
+a class can contain
+	data members
+	methods
+	blocks
+
+
+
+static
+	data member
+	block
+	method
+
+final
+	data member
+	method
+	class
+
+
+
+guidelines for class
+
+class name must be a noun
+first letter and every word first letter in caps
+		PascalCase
+class ideally contains non public data members
+	to provide access to them, use getters and setters
+whenever arg constructor is there, use no-arg constructor also
+

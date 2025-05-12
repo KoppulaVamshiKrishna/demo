@@ -1,0 +1,308 @@
+JDBC
+----
+Java DataBase Connectivity
+
+JDBC Api
+	provides the interfaces, which will be implemented by the respective db vendors
+
+some of those interfaces are:
+
+Driver interface
+Connection interface
+ResultSet interface
+Statement interface
+PreparedStatement interface
+CallableStatement interface
+
+
+Driver
+------
+	takes care of the difference in db
+	each db vendor provides us their drivers
+	for different version of db, different version of drivers are also released
+
+MySQL
+------
+allows java programs to access the db using
+	mysql-connector.jar
+this is a free downloadable file from oracle website.
+
+
+
+How to include jar file to the java project build path?
+
+once the jar file is placed in your project's bin folder
+
+right project
+	-> Properties
+		-> Java Build path
+			-> libraries
+				-> Add external jar
+					browse to the location where jar file is present
+
+	Apply and close.
+
+
+steps to connect to the database.
+	what is a connection object?
+		represents as an object that establish connection with the database
+
+driverClassName
+url
+	
+username
+password
+
+
+
+
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class App {
+
+	public static void main(String[] args) throws SQLException {
+		String password="root";
+		String username="root";
+		String url="jdbc:mysql://localhost:3306/world";
+		Connection con = DriverManager.getConnection(url,username,password);
+		Statement st = con.createStatement();
+		ResultSet rs = st.executeQuery("SELECT * FROM city");
+		while(rs.next()) {
+			System.out.println(rs.getString(2));
+		}
+		con.close();
+	}
+
+}
+
+
+
+i used executeQuery method
+like this there are 3 methods:
+
+execute()				returns void
+executeQuery()		returns ResultSet		so ideally, use it for SELECT
+executeUpdate()		returns int				no of rows affected			DML
+
+
+we used Statement:
+
+Statement
+		simple sql statement
+		simple means, entire statement is ready
+			not composed at runtime
+		is prone to SQL Injection
+
+PreparedStatement
+		parameterized queries, which depends on user input at runtime
+
+CallableStatement
+	is used to call stored procedures and functions
+
+
+
+
+CREATE TABLE MYUSER(
+USERNAME VARCHAR2(20) PRIMARY KEY,
+PASSWORD VARCHAR2(20) NOT NULL);
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class App3PrepStatement {
+
+	public static void main(String[] args) throws SQLException {
+		Scanner sc=new Scanner(System.in);
+		String uname=sc.nextLine();
+		String pwd=sc.nextLine();
+		String url="jdbc:oracle:thin:@localhost:1521:xe";
+		String username="hr";
+		String password="hr";
+		Connection con = DriverManager.getConnection(url,username,password);
+		PreparedStatement st = con.prepareStatement("SELECT * FROM MYUSER WHERE USERNAME=? AND PASSWORD=?");
+		st.setString(1, uname);
+		st.setString(2, pwd);
+		
+		ResultSet rs = st.executeQuery();
+		if(rs.next())
+			System.out.println("Login is successful");
+		else
+			System.out.println("Login failed");
+		con.close();
+	}
+
+}
+
+
+
+
+
+
+----------------------------
+If you write a program for jdbc and tomoro the table structure is altered
+
+we can use metadata and understand the database/ tablestructure and write dynamic code
+
+ResultSetMetaData
+DatabaseMetaData
+
+
+Dao pattern
+	Data Access Objects
+
+CRUD
+
+Product
+	id
+	name
+	category
+	price
+
+
+
+
+CREATE TABLE PRODUCT(
+ID INT PRIMARY KEY,
+NAME VARCHAR(50) NOT NULL,
+CATEGORY VARCHAR(50),
+PRICE DOUBLE
+);
+
+
+
+model
+	any code that defines data
+	ay code that access data
+
+
+
+package com.cognizant.demo.model;
+
+public class Product {
+	private Integer id;
+	private String name;
+	private String category;
+	private Double price;
+	
+	public Product() {}
+
+	public Product(Integer id, String name, String category, Double price) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.category = category;
+		this.price = price;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", category=" + category + ", price=" + price + "]";
+	}
+	
+}
+
+
+ProductDaoImpl.java
+	this is a model because, it access data
+
+
+
+How to use 1 test method for as many test cases
+
+this is done using Parameterized test suite
+
+
+
+import static org.junit.Assert.assertEquals;
+
+import java.util.Arrays;
+import java.util.Collection;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+@RunWith(Parameterized.class)
+public class MathematicsTest {
+	Integer no1;
+	Integer no2;
+	Integer result;
+	public MathematicsTest(Integer no1, Integer no2, Integer result) {
+		super();
+		this.no1 = no1;
+		this.no2 = no2;
+		this.result = result;
+	}
+	
+	@Test
+	public void testSum() {
+		Integer expected=result;
+		Mathematics maths=new Mathematics();
+		maths.setNo1(no1);
+		maths.setNo2(no2);
+		maths.add();
+		Integer actual=maths.getResult();
+		assertEquals(expected, actual);
+				
+	}
+	
+	@Parameterized.Parameters
+	public static Collection parameters() {
+		return Arrays.asList(new Object[][] {
+			{2,3,5},
+			{5,4,9},
+			{11,12,23},
+			{20,11,31},
+			{23,2,25},
+			{-1,-2,-3},
+			{5,10,15}
+		});	
+	}
+}
+
+
+

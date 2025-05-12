@@ -1,0 +1,579 @@
+Java Basics, Object Oriented Programming Concepts, Packages, Interfaces, Abstract Classes, Inner Classes, Exception Handling, Strings, I/O, Collections and Generics, Date/Time API, Standard Libraries, Multithreading, JDBC, Lambda Expressions
+
+OOP
+	Inheritence
+	Abstraction
+	Encapsulation
+	Polymorphism
+
+
+Abstraction
+	providing focus on what to do
+		but how to do is focus for the sub classes
+		
+Encapsulation
+	wrapping the data and methods inside a box/container called class
+	and providing access to data members using accessors (getters) and mutators (setters)
+
+Polymorphism
+	poly - many
+	morph - face
+
+
+	sum(2,3)				=	5
+	sum("Raj","Kumar")	=	RajKumar
+	sum(5,4)				=	54
+
+this is an example for method overloading (static polymorphism)
+the class itself exhibits the polymorphism
+
+there is another type of polymorphism where, polymorphism happens only during run time
+	dynamic polymorphism
+	late binding
+	runtime polymorphism
+
+Furniture f=null;
+f=new Chair();
+f.acceptDetails();		//behaved like a chair
+
+
+f=new BookShelf();
+f.acceptDetails();		//like a bookshelf
+
+
+if you see 
+	Furniture class, there is no polymorphism
+if you see
+	Chair class, there is no polymorphism
+same as bookshelf
+
+but in main method at runtime,
+there is a polymorphism exhibited.
+
+
+
+Employee hari;
+hari=new Programmer();
+hari=new Developer();
+har=new ProjectManager();
+
+Package:
+	org.apache.tomcat
+	com.cognizant.hrms
+
+
+
+packages are not only created for modularity
+or to combine related classes together in a package.
+
+packages also provide restrictions
+		default		only accessible inside the package
+		default = no access specifier
+
+
+private	only inside same class
+default	inside same class + anywhere in same package
+protected inside same class + anywhere in same package + sub classes of any package
+public	inside same class + anywhere in same package + anywhere in any package
+
+
+
+Difference between abstract class and interfaces.
+1) Abstract class can have 
+		methods with body (implementation)
+		abstract methods
+		variable
+		non public data members or method also
+
+	but in interface, we cannot have
+		method with body (from java 8 onwards, static and default methods can have)
+		variables			(only constants are allowed inside interface)
+		non public data member at all
+
+
+
+interface Person
+{
+	void speak();		//everything inside an interface is public only even if you dont 							//mention
+}
+
+
+class Student implements Person{
+	void speak(){
+		System.out.println("Student speaks");
+	}
+
+	public static void main(String []args)
+	{
+		Person raja=new Student();
+		raja.speak();		//what will be output?
+	}
+}
+
+
+
+
+a) Student speaks
+b) Compilation error
+c) Runtime error
+d) No output
+
+
+
+
+List l=new ArrayList();
+
+	List is an interface
+
+Furniture f=new Chair();
+	Furniture is an abstract class
+
+that is why people start comparing abstract class and interface.
+
+
+Interfaces
+	can contain only public members
+	can contain data members which are always CONSTANTS
+	can contain abstract methods (not mentioned as abstract)
+	can contain static and default methods with body
+	
+
+data type	there are 8 only
+
+type can be created using
+	class
+	interface
+	enum
+	record
+
+
+static
+	data members
+		ex:
+			class Student
+			{
+				static String collegeName;
+			}
+
+Student a, b, c;
+a=new Student();
+b=new Student();
+c=new Student();
+
+
+a, b, c all have same collegeName
+
+a.collegeName="A";
+
+System.out.println(b.collegeName);			//same A only
+
+
+because, there is no separate copy of collegeName for a, b and C
+
+collegeName belongs to Student class and not to any particular object of the class
+
+static method:
+	can be called using classname.method name
+
+static block:
+	static
+	{
+		//this block is executed even before the first line of main method is executed
+	}
+
+static is very early.
+
+so static methods cannot access instance variable
+	because, instances are created late. But static is available even before instances are created
+
+
+
+static is opposite to instance
+
+
+package com.cognizant.demo;
+
+public class Employee {
+	static int companyName;		//same for every object of Employee
+	String employeeName;		//different for every object of Employee
+}
+
+
+
+package com.cognizant.demo;
+
+public class Employee {
+	static int companyName;		//same for every object of Employee
+	String employeeName;		//different for every object of Employee
+	
+	public static void display() {
+		System.out.println(companyName);
+//		System.out.println(employeeName);	//static method cannot access instance variable
+	}
+}
+
+
+
+Employee.display();		//now no objects are available to call employeeName variable
+
+
+final
+	data member			CONSTANT
+	method					cannot be overriden
+	class					cannot be inherited		(ex:		Integer, String)
+
+
+
+Exception handling
+-----------------------
+What is exception?
+	Error? vs Exception?
+	Errors cannot be handled
+	Exceptions can be handled
+
+
+Error, Exception both are derived frm Throwable 
+Throwable is derived from Object
+
+
+RuntimeException is derived from Exception
+
+
+What is Exception?
+	abnormal event that might occur during the execution of the program.
+	in such case, the program terminates abruptly.
+
+
+while(true){
+	System.out.println(stack.pop());
+}
+
+Exception Handling:
+	providing the program to continue in an alternate path during exceptions.
+
+	try
+	catch
+	finally
+
+try block is a guarded section
+	an exception occurred in try block can be handled by the catch blocks
+
+
+public class App {
+
+	public static void main(String[] args) {
+		Bank sbi=new Bank();
+		try {
+			sbi.withdraw(20000);
+		}catch(Exception ex) {
+			System.out.println("Please try with lesser amount");
+		}
+	}
+
+}
+
+
+
+catch(Exception ex)
+	an exception of any class which is sub class of Exception can be handled
+
+
+
+try
+	catch
+	catch
+	catch
+finally
+
+
+
+try 
+finally
+
+
+try
+catch
+
+
+How to throw exception objects?
+	we can throw predefined exception objects or our own
+
+
+own 
+
+class that extends Exception is a checked exception
+
+what is checked exception?
+	Exceptions that are checked by the compiler
+	all classes derived from Exception class are checked exceptions
+	compiler will expect you to do something
+
+
+
+
+
+throws
+	is used to inform the compiler that
+		this method is throwing these exceptions
+		but does not handle them
+		the calling method has to handle these exceptions.
+
+throw
+	is used to throw exception object
+
+
+what is the difference between throw and throws
+
+
+how to create unchecked exception?
+	any class that inherits RuntimeException is an unchecked exception
+	we do not use 'throws' clause in such cases.
+
+	they can be handled or unhandled, but still program compiles
+
+
+public class InvalidAmountException extends RuntimeException {
+	public InvalidAmountException(String message) {
+		super(message);
+	}
+}
+
+you need to find some examples for
+	checked exceptions
+	unchecked exceptions
+
+
+
+IOException
+FileNotFoundException
+SQLException
+
+
+
+Strings
+--------
+String is a class in java.lang package
+it is a final class
+
+String is immutable. It cannot be changed.
+
+
+
+Mutable strings:-
+StringBuilder
+StringBuffer			is synchronized (thread safe)
+
+
+
+Write a java program to check if an input string is a Palindrome or not.
+
+eye
+malayalam
+madam
+abcdedcba
+
+tell me the logic?
+
+String has a method
+	charAt(index)
+	toCharArray()
+
+Vardhan says
+	reverse the string and
+	compare with original string
+
+reverse method is not there in String class.
+StringBuilder has reverse method.
+
+
+Write a java program to check if 2 input strings are anagrams?
+ex:
+	tea
+	eat
+
+	team
+	meat
+
+
+logic?
+	sort the characters
+	and then check they are same
+
+
+
+
+
+Task:
+identify as many properties and methods in
+		String
+		StringBuilder
+		StringBuffer
+
+
+for ex:
+
+charAt(index)
+substring()
+replace
+replaceAll
+insert
+delete
+deleteCharAt(index)
+reverse
+
+
+
+
+matches()		this method is available in String but not StringBuilder or buffer
+	is used to check if the string matches a regular expression or not.
+
+
+What regex?
+	is used for 
+		i) to check if the string matches a regex pattern or not
+		ii) to extract the portions of the string that matches the regex pattern
+
+
+regex:
+	2 portions
+		matching pattern symbol
+		multiplicity/ occurrence
+
+ex:
+
+	\d{2}	
+		\d means digit
+		{2} is multiplicity		2 times		so 	2 digits
+
+multiplicity:
+	+		one or more
+	*		zero or more
+	?		zero or one
+	{x,y}	min x and max y
+		{2,3}		2 to 3 times
+		{2,}		2 or more
+		{,3}		upto 3
+		{3}			3 times
+
+
+\d
+\D		non digit
+
+
+in java, \ is an escape char
+	so, we should use \\ whenever we mean a \
+
+
+[]	are used to provide a list of characters from which 1 can occur
+		[a-z]		
+		[A-Za-z0-9]
+		[aeiou]			any vowel
+
+()		to group the expresssions
+		and mention that this group
+			([a-z]+[0-9]*)?			is optional
+			
+^$		to mark the beginning and end of regex
+		in java, it is optional
+
+
+|		or operator
+
+
+import java.util.Scanner;
+
+public class AppRegEx1 {
+
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		String input=sc.nextLine();
+		System.out.println(input.matches("\\d{10}"));
+	}
+
+}
+
+
+what is a valid email address?
+
+	alphabet atleast 1 char
+	followed by alphanumeric
+	@
+	one word
+	.
+	2 or 3 characters
+
+
+
+
+
+
+
+import java.util.Scanner;
+
+public class AppRegEx1 {
+
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		String input=sc.nextLine();
+		System.out.println(input.matches("[a-z][a-z0-9]*([.][a-z][a-z0-9]*)?@[a-z]+[.](([a-z]{3})|([a-z]{2}[.][a-z]{2}))"));
+	}
+
+}
+
+
+
+
+String emailPattern="[a-z][a-z0-9]*([.][a-z][a-z0-9]*)?@[a-z]+[.](([a-z]{3})|([a-z]{2}[.][a-z]{2}))";
+
+String mobilePattern="[0-9]{10}";
+
+
+
+
+
+
+
+
+
+
+
+
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class AppRegexMatcher {
+
+	public static void main(String[] args) {
+		String emailPattern="[a-z][a-z0-9]*([.][a-z][a-z0-9]*)?@[a-z]+[.](([a-z]{3})|([a-z]{2}[.][a-z]{2}))";
+		String mobilePattern="[0-9]{10}";
+		Scanner sc=new Scanner(System.in);
+		String input=sc.nextLine();
+		//extract email ids frm the input
+		Pattern p = Pattern.compile(emailPattern);
+		Matcher m = p.matcher(input);
+		System.out.println("Email ids found:");
+		while(m.find()) {
+			System.out.println(m.group());
+		}
+		System.out.println("-----------------------");
+		
+		//extract mobile nos from the input
+		p=Pattern.compile(mobilePattern);
+		m=p.matcher(input);
+		System.out.println("Mobile nos found:");
+		while(m.find()) {
+			System.out.println(m.group());
+		}
+	}
+
+}
+
+
+
+
+
+
+
+
+

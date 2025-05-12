@@ -1,0 +1,480 @@
+Before java 5
+ie, from jdk 1.1 to 1.4 there were no generics.
+
+on those days we used
+	ArrayList was there, in modern java, it is like ArrayList<Object>
+
+
+
+public class Node<T> {
+	private T data;
+	private Node<T> next;
+	
+	public Node() {}
+
+	public Node(T data, Node<T> next) {
+		super();
+		this.data = data;
+		this.next = next;
+	}
+
+	public T getData() {
+		return data;
+	}
+
+	public void setData(T data) {
+		this.data = data;
+	}
+
+	public Node<T> getNext() {
+		return next;
+	}
+
+	public void setNext(Node<T> next) {
+		this.next = next;
+	}
+
+	@Override
+	public String toString() {
+		return "Node [data=" + data + ", next=" + next + "]";
+	}
+	
+}
+
+
+
+
+public class JQueue<T> {
+	private Node<T> front;
+	private Node<T> rear;
+	
+	public JQueue() {}
+
+	public void add(T data) {
+		//add at the rear.
+		Node<T> temp=new Node(data, null);
+		//check if queue is empty
+		if(rear==null) {
+			//adding first node
+			front=temp;
+			rear=temp;
+		}else
+		{
+			//queue is not empty
+			rear.setNext(temp);
+			rear=temp;
+		}
+	}
+	
+	public T remove() {
+		//if queue is empty, nothing to remove
+		T data;
+		if(front==null) {
+			throw new EmptyQueueException();
+		}else
+		{
+			Node<T> temp=front;
+			front=front.getNext();
+			data = temp.getData();
+			temp=null;
+		}
+		return data;
+	}
+	
+}
+
+
+
+
+
+public class AppString {
+
+	public static void main(String[] args) {
+		JQueue<String> q=new JQueue<>();
+		q.add("A");
+		q.add("B");
+		q.add("C");
+		q.add("D");
+		q.add("E");
+		
+		
+		while(true){
+			System.out.println(q.remove());
+		}
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+public class EmptyQueueException extends RuntimeException {
+
+}
+
+
+
+public class App {
+
+	public static void main(String[] args) {
+		JQueue<Integer> q=new JQueue();
+		q.add(1);
+		q.add(2);
+		q.add(3);
+		q.add(4);
+		q.add(5);
+		
+		while(true) {
+			System.out.println(q.remove());
+		}
+	}
+
+}
+
+
+
+
+-----------------------------------------------------
+ANSI SQL using MySQL
+----------------------
+
+SQL stands for Structured Query Language
+
+What is a Relation?
+	a row column format
+	table is an example for relation
+
+
+RDBMS
+
+
+SQL 
+	DDL		Data Definition Language
+	DML		Data Manipulation Language
+	DQL 	Data Query Language
+	TCL		Transaction Control Language
+	DCL		Data Control Language
+
+
+Data types
+-----------
+varchar
+char
+int
+date
+float
+boolean
+tinyblob
+mediumblob
+longblob
+
+
+what is the difference between char and nchar?
+
+	char(4) vs nchar(4)
+
+
+char(4) means, it will allow 4 bytes of characters
+nchar(4) means, it will allow 4 characters
+
+
+ascii is 8 bit		1 byte
+unicode is 16 bit	2 bytes
+
+A	65		0100 0001
+
+
+0000 0000				null
+0100 0001				A
+
+
+
+
+1111 1111
+
+
+
+1111 1111 1111 1111		=	65535
+
+SELECTION
+PROJECTION
+UNION
+UNION ALL
+PRODUCT
+MINUS
+INTERSECT
+
+
+Database objects
+	Tables
+	Views
+
+
+
+DDL
+	data definition language
+		you define what should be the structure of each record
+		what are the column names, data types, limit, constraints
+
+
+	CREATE
+	ALTER
+	DROP
+	TRUNCATE
+
+
+CREATE table
+	
+create table mycity as 
+select * from city;
+
+While creating table, you can specify 
+	table name (unique)
+	column names, data types
+	constraint at table level or at column
+
+
+
+
+CREATE TABLE DISTRICT
+(
+	ID INT PRIMARY KEY,
+    NAME VARCHAR(50) NOT NULL
+    );
+
+
+
+CREATE TABLE DISTRICT
+(
+	ID INT,
+    NAME VARCHAR(50) NOT NULL,
+    CONSTRAINT PKDID1 PRIMARY KEY(ID)
+    );
+
+
+
+
+
+NOT NULL
+CHECK			checks the value entered for a column whether it meets a condition?
+UNIQUE			checks if any duplicate values entered, and reject
+				will it allow NULL?		How many NULLs it will allow? only many nulls
+PRIMARY KEY	
+FOREIGN KEY
+
+
+
+
+CANDIDATE KEY
+ALTERNATE KEY
+SUPER KEY
+COMPOSITE KEY
+
+
+
+ALTER TABLE
+	add column
+	modify column
+	drop column
+	drop constraint
+	
+
+DROP TABLE
+
+
+TRUNCATE
+	
+
+
+DML
+	INSERT
+	UPDATE
+	DELETE
+
+
+INSERT a row
+multi row insert
+
+	in mysql
+		insert into tablename values (1,2,3), (3,2,4), (45,3,2)
+
+	insert into tablename 
+		select * from anothertablename
+
+
+UPDATE a row
+update all rows
+update rows with where condition
+
+	update employees set salary=salary+1, first_name='', department=101
+		where employee_id>100;
+
+
+
+DELETE
+	delete without a condition will remove all rows in a table
+
+DQL
+
+
+projection
+	choosing which are all the columns to be displayed
+
+selection
+	choosing the records based on condition
+
+
+SELECT * FROM TABLANAME WHERE CONDITION
+
+WHERE clause
+ORDER BY clause
+GROUP BY clause
+HAVING clause
+
+JOINS
+SUB QUERIES
+
+
+Functions
+	each row functions
+	aggregate functions
+
+
+Operators
+	concatenation
+	arithmetic
+	comparison
+	logical
+
+>
+<
+>=
+<=
+=
+!=			<>
+between
+not between 
+in 
+not in
+like
+	
+
+
+between 1 and 10 means?		1 and 10 included
+like operator wild cards?		% means 0 or more characters
+									_ means 1 and only 1 character
+a_
+	a1
+	ab
+	az
+	a8
+	a,
+
+
+%karthi%
+
+
+-----------------------------------------------------
+create database bank;
+
+use bank;
+
+
+
+
+JOINS
+	is used for retrieving column(s) from more than 1 table in select statement
+
+	select t1.column1, t2.column1 from table1 t1 join table2 t2 on t1.column1=t2.column1
+
+
+in this above query, you use 'JOIN' so it is modern join syntax
+
+old syntax	is theta join
+
+	select t1.column1, t2.column1 from table1 t1, table2 t2 where t1.column1 = t2.column1
+
+
+------------------------------
+JOIN types
+
+inner 
+left outer
+right outer
+full 
+self
+equi
+non equi
+natural
+cross
+
+
+What is inner join?
+	a join is normally an inner join only.
+	based on the join condition, only the matching rows are retrieved
+	for ex:
+SELECT A.ACNUMBER, A.CUSTID, C.FNAME, C.LTNAME, A.AOD
+FROM ACCOUNT A JOIN CUSTOMER C
+ON A.CUSTID=C.CUSTID;
+
+the above query uses INNER JOIN
+
+
+
+RIGHT OUTER JOIN
+	all records from right side table
+	and matching records from left side table
+
+
+LEFT OUTER JOIN
+	al records from left side table
+	and matching records from right side table
+
+SELF JOIN
+	A table joins to itself
+
+SELECT E.EMPLOYEE_ID, E.FIRST_NAME, E.LAST_NAME, E.MANAGER_ID, M.FIRST_NAME
+FROM EMPLOYEES E
+JOIN EMPLOYEES M
+ON E.MANAGER_ID=M.EMPLOYEE_ID
+ORDER BY E.EMPLOYEE_ID;
+
+
+
+equi or non-equi join
+	a join that uses join condition using
+		=
+		!=
+are equi-joins
+
+
+non equi join example:
+select e.employee_id, e.first_name, e.salary, j.job_id
+from employees e join
+jobs j
+on e.salary between j.min_salary and j.max_salary;
+
+
+NATURAL JOIN
+------------
+SELECT * FROM COUNTRIES NATURAL JOIN REGIONS;
+
+SELECT * FROM EMPLOYEES JOIN DEPARTMENTS
+USING (DEPARTMENT_ID);
+
+
+CROSS JOIN
+ is a cartesian product
+
+SELECT * FROM COUNTRIES CROSS JOIN REGIONS;
+
+
+
+

@@ -1,0 +1,523 @@
+Junit
+I/O, Date/Time API
+
+What is IO?
+	Input and Output
+java.io package provides us libraries that help us to work with streams
+
+what is System.in?
+	is an object of any sub class of InputStream (abstract class)
+
+1) Reader, Writer 					character based
+2) InputStream, OutputStream		binary/ byte
+
+
+Before jdk 1.5. 		ie., from jdk 1.1 to 1.4
+there was no class Scanner
+
+BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		String input=br.readLine();
+		System.out.println("Your input is:"+input);
+
+Reader:
+	FileReader
+	BufferedReader
+	
+Writer:
+	FileWriter
+	BufferedWriter
+
+for binary 
+
+InputStream:
+	FileInputStream
+	BufferedInputStream
+	DataInputStream				primitive data
+	ObjectInputStream			reading objects 
+
+OutputStream:
+	FileOutputStream
+	BufferedOutputStream
+	DataOutputStream
+	ObjectOutputStream
+
+
+Node streams:-
+among these classes, whichever class is used to directly access from a specific node
+	File is an example for node
+	Keyboard is a node
+
+Filter streams:-
+	they work on node streams.
+	why?	because, some functionality that is not there in node streams, we borrow from filter streams
+
+
+FileInputStream
+	read all bytes from a file and store in an array
+
+FileOutputStream
+	to create a file and store all those bytes in that array into the file
+
+
+
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+class App4 {
+
+	public static void main(String[] args) throws IOException {
+		File f1=new File("C:\\Users\\2372354\\OneDrive - Cognizant\\Pictures\\cognizant_logo.png");
+		long len = f1.length();
+		byte data[]=new byte[(int) len];
+		
+		FileInputStream fis=new FileInputStream(f1);
+		fis.read(data);
+		fis.close();
+		System.out.println("We have read all bytes from the file and kept in an array");
+		/////////////////////////
+		File f2=new File("vamsi.png");
+		FileOutputStream fos=new FileOutputStream(f2);
+		fos.write(data);
+		fos.flush();
+		fos.close();
+		System.out.println("Done. Pls check the following:"+f2.getAbsolutePath());
+	}
+
+}
+
+
+
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class App5 {
+
+	public static void main(String[] args) throws IOException {
+		File f1=new File("C:\\Users\\2372354\\OneDrive - Cognizant\\Pictures\\cognizant_logo.png");
+		File f2=new File("sureka.png");
+		FileInputStream fis=new FileInputStream(f1);
+		FileOutputStream fos=new FileOutputStream(f2);
+		int data=-1;
+		while((data=fis.read())!=-1) {
+			fos.write(data);
+			fos.flush();
+		}
+		fos.close();
+		System.out.println("Check "+f2.getAbsolutePath());
+	}
+
+}
+
+
+
+
+Whenever you want to read and write structured data, then use
+	ObjectOutputStream
+	ObjectInputStream
+
+
+
+
+String str="127.0.0.1";
+String []arr=str.split(".");
+
+
+split method of String vs StringTokenizer	
+	split method delimiter is regex
+	split method returns array				(what if array size is huge)
+
+tokenizer is used to visit each token once in a loop
+
+
+	
+
+----------------------
+Multi-threading
+-----------------
+	What is process?
+		running instance of a program.
+
+CPU allocates resources for each process running in our system.
+	what is resource?
+		time
+		memory
+
+What is multi-tasking?
+	performing multiple tasks simultaneously
+	Process based multi-tasking
+	Thread based multi-tasking		(multi-threading)
+
+so far, we have done lot of java programs. Count and tell me how may threads were present in them?
+
+
+each process contains atleast 1 thread called main thread.
+
+all other threads become child to main
+
+single threaded process.
+
+now, lets create child threads to make it multi-threaded process.
+
+adv of multi-threading:
+
+	effective utilization of resources
+	concurrent/parallel execution
+	
+disadvantage
+	race condition
+	dead locks
+	lock starvation			
+
+
+
+
+How to create a thread?
+	by creating an object of Thread class
+
+start()		this will call run()
+join
+notify
+notifyAll
+wait
+sleep
+
+
+1) extends Thread
+
+public class Odd extends Thread
+{
+	public void run() {
+		for(int i=111;i<131;i+=2) {
+			System.out.println(i);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+}
+
+
+
+public class Even extends Thread
+{
+	public void run() {
+		for(int i=2;i<22;i+=2) {
+			System.out.println(i);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+}
+
+
+
+
+
+public class App {
+
+	public static void main(String[] args) {
+		Odd odd=new Odd();
+		Even even=new Even();
+		odd.start();
+		even.start();
+	}
+
+}
+
+
+
+
+------------------------------------------------
+
+public class Odd implements Runnable
+{
+	public void run() {
+		for(int i=111;i<131;i+=2) {
+			System.out.println(i);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+}
+
+
+
+
+public class Even implements Runnable
+{
+	public void run() {
+		for(int i=2;i<22;i+=2) {
+			System.out.println(i);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+}
+'
+
+
+
+
+public class App {
+
+	public static void main(String[] args) {
+		Thread t1=new Thread(new Odd());
+		Thread t2=new Thread(new Even());
+		t1.start();
+		t2.start();
+	}
+
+}
+
+
+Thread synchronization:
+-----------------------
+	ensure that no 2 threads access a shared resource at a time
+
+	
+1) using join method
+2) synchronized method
+3) synchronized block
+
+
+
+join example:
+
+public class App {
+
+	public static void main(String[] args) throws InterruptedException {
+		Thread t1=new Thread(new Odd());
+		Thread t2=new Thread(new Even());
+		Thread t3=new Thread(new Odd());
+		Thread t4=new Thread(new Even());
+		t1.setName("T1");
+		
+		t2.setName("T2");
+		t3.setName("T3");
+		t4.setName("T4");
+		
+		t1.start();
+		t2.start();
+		t2.join();
+		t3.start();
+		t4.start();
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+synchronized method example:
+
+
+public class SequenceGenerator {
+	
+	public void generate() {
+		for(int i=0;i<20;i++) {
+			try {
+				System.out.println(Thread.currentThread().getName()+" "+i);
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+}
+
+
+
+
+
+public class MyThread extends Thread{
+	SequenceGenerator sg;
+	
+	public MyThread(SequenceGenerator sg) {
+		this.sg=sg;
+	}
+
+	public void run() {
+		sg.generate();
+	}
+}
+
+
+
+
+
+
+
+public class App {
+
+	public static void main(String[] args) {
+		SequenceGenerator sg=new SequenceGenerator();
+		MyThread t1=new MyThread(sg);
+		MyThread t2=new MyThread(sg);
+		t1.setName("T1");
+		t2.setName("T2");
+		
+		t1.start();
+		t2.start();
+	}
+
+}
+
+
+
+-----------------------------
+using synchronized block
+
+
+public class SequenceGenerator {
+	
+	public void generate() {
+		System.out.println(Thread.currentThread().getName()+" has entered the generate method now");
+		for(int i=0;i<5;i++) {
+			System.out.println(Thread.currentThread().getName()+" "+i);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		synchronized (this) {
+			System.out.println(Thread.currentThread().getName()+" entered the sync block now");
+			for(int i=0;i<20;i++) {
+				try {
+					System.out.println(Thread.currentThread().getName()+" "+i);
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			System.out.println(Thread.currentThread().getName()+" exited the sync block now");
+		}
+		
+		System.out.println(Thread.currentThread().getName()+" has exited the generate method now");
+	}
+}
+
+
+
+
+
+
+
+public class MyThread extends Thread{
+	SequenceGenerator sg;
+	
+	public MyThread(SequenceGenerator sg) {
+		this.sg=sg;
+	}
+
+	public void run() {
+		sg.generate();
+	}
+}
+
+
+
+
+
+public class App {
+
+	public static void main(String[] args) {
+		SequenceGenerator sg=new SequenceGenerator();
+		MyThread t1=new MyThread(sg);
+		MyThread t2=new MyThread(sg);
+		t1.setName("T1");
+		t2.setName("T2");
+		
+		t1.start();
+		t2.start();
+	}
+
+}
+
+
+
+
+----------------------------------
+int sum(int i, int j){
+	return i+j+1;
+}
+
+
+sum(2,3)		i will get 6			we got a bug
+
+so we will fix this bug
+
+
+
+
+int sum(int i, int j){
+	return i+j;
+}
+
+
+JUnit
+------
+which class we test?
+	that is called as Class Under Test		(CUT)
+
+AUT		Application Under Test
+
+SUT		Software Under Test
+
+
+TDD			Test Driven Development
+
+		write the code to fail
+		modify the code to pass
+		refactor the code
+
+
+What is a test suite?
+	collection of test cases
+
+how to create test suite
+
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+
+@RunWith(Suite.class)
+@SuiteClasses({MathematicsTest.class, MathematicsTest2.class})
+public class MySuite {
+
+}
+
+
+

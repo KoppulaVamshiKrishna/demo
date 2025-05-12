@@ -1,0 +1,162 @@
+Java Date time API
+------------------
+String into Date and vice versa
+and format the date into required format dd/MM/yyyy 
+
+work between dates
+	days, months between 2 dates?
+finding the age of a person
+finding the expiry date of a product
+
+checking if the date is future date or past date or present
+
+java.util.Date
+java.sql.Date
+java.time.LocalDate
+java.time.LocalTime
+Calendar
+GregorianCalendar
+	to find if a year is leap or not
+
+
+date format symbols:
+dd		2 digit date (day number of the month)	today is 04
+d		1 digit date	today it is 4			10 days later it will be 14
+MM		2 digit month number	today it is 03			for march
+M		1 digit month number	today it is 3				for march
+MMM		3 letter month name			Mar		Apr		MAY		JUN
+MMMM	Full month name				March
+m		minutes
+mm		2 digit minutes
+yy
+yyyy
+EEE		week day name			Tues
+EEEE	full week day name	Tuesday
+
+
+
+1) how to get input from the user and store in a java.util.Date object?
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+public class App1 {
+
+	public static void main(String[] args) throws ParseException {
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Please enter your date of birth (dd/MM/yyyy):");
+		String input=sc.nextLine();
+		System.out.println(input);
+		//to convert a String into java.util.Date, we can use SimpleDateFormat
+		SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+		//convert String to Date
+		Date dt = sdf.parse(input);
+//		System.out.println(dt);
+		//i want to display the same date in different format
+		sdf=new SimpleDateFormat("dd-MMM-yyyy");
+		//convert Date into String
+		System.out.println(sdf.format(dt));
+	}
+
+}
+
+
+
+
+
+vimport java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+public class App1 {
+
+	public static void main(String[] args) throws ParseException {
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Please enter your date of birth (dd/MM/yyyy):");
+		String input=sc.nextLine();
+//		System.out.println(input);
+		//to convert a String into java.util.Date, we can use SimpleDateFormat
+		SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+		sdf.setLenient(false);
+		//convert String to Date
+		Date dt = sdf.parse(input);
+//		System.out.println(dt);
+		//i want to display the same date in different format
+		sdf=new SimpleDateFormat("dd-MMM-yyyy");
+		//convert Date into String
+		System.out.println(sdf.format(dt));
+	}
+
+}
+
+
+
+
+java.util.Date
+	setTime(long)
+	getTime() returns long
+
+dt.getMonth()		will return 0 for january
+dt.getYear()		will return 2025-1900	=	125
+the above methods are deprecated.
+
+MM
+MMM
+
+sdf.format(dt);
+
+long representation of any datetime
+
+	1970 
+
+every util Date is a long number
+
+every date is a long data type number which is increasing 1000 per second
+
+
+Write a java program to find the age of a person:-
+
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.util.Scanner;
+
+public class App3 {
+
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Please enter your date of Birth (yyyy-MM-dd)");
+		String input=sc.nextLine();
+		//how to convert String into LocalDate
+		Date sqlDate=Date.valueOf(input);
+		LocalDate dob = sqlDate.toLocalDate();
+		
+		LocalDate today=LocalDate.now();
+		
+		Period p = Period.between(dob, today);
+		System.out.printf("You are %d year(s), %d month(s) and %d day(s) young", p.getYears(), p.getMonths(), p.getDays());
+	}
+
+}
+
+
+
+
+import java.util.GregorianCalendar;
+
+public class App4 {
+
+	public static void main(String[] args) {
+		GregorianCalendar gc=new GregorianCalendar();
+		System.out.println(gc.isLeapYear(2024));
+	}
+
+}
+
+
+
